@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "11085960496",
+    "project_id": "flutter-dogwaze",
+    "storage_bucket": "flutter-dogwaze.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11085960496:android:58c92d420c973899e0a4f5",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_try"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11085960496-dc5i8ok4ag3kk7lbkttm1he1oj95eaa8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTJOYHYoSIUqlt2Y1s1KXCqWTnBWzcQ7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11085960496-dc5i8ok4ag3kk7lbkttm1he1oj95eaa8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
