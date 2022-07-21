@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_try/app/navigation/bottom_nav.dart';
 import 'package:flutter_application_try/app/ui/pages/home/home.controller.dart';
+import 'package:flutter_application_try/app/ui/pages/perfil/perfil_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +14,11 @@ class HomePage extends StatelessWidget {
       create: (_) {
         final controller = HomeController();
         controller.onMarkerTap.listen((String id) {
-          // ignore: avoid_print
-          print("got to $id");
+          final route =
+              MaterialPageRoute(builder: (context) => const perfilPage());
+
+          Navigator.push(context, route);
+          //generar dialogo o ruta al hacer click en marcador
         });
         return controller;
       },
