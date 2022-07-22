@@ -2,26 +2,61 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PerfilPage extends StatelessWidget {
-  PerfilPage({Key? key}) : super(key: key);
+   PerfilPage({Key? key}) : super(key: key);
 
-  final controller = TextEditingController();
+  final controllerName = TextEditingController();
+  final controllerColor = TextEditingController();
+  final controllerDescription = TextEditingController();
+
+
+
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: TextField(controller: controller),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                final name = controller.text;
-
-                createProfile(name: name);
-              },
-            ),
-          ],
+          title: const Text('Anadir perrito'),
         ),
-      );
+          body: ListView(
+            padding: const EdgeInsets.all(16),
+            children: <Widget>[
+              TextField(
+                controller: controllerName,
+                decoration: decoration('name'),
+              ),
+              SizedBox(height: 24),
+              TextField(
+                controller: controllerColor,
+                decoration: decoration('color'),
+              ),
+              
+                SizedBox(height: 24),
+                DateTimeField(
+                controller: controllerDate,
+                decoration: decoration('description'),
+                format: DateFormat('dd-MM-yyy'),
+                onShowPicker: (context, currentValue)=>
+                context: context,
+                firstDate: DateTime(2000),
+                lastDate: Datetime(2100),
+                initialDate: currentValue ?? DateTime
+                ),
+              ),
+
+            const SizedBox(height: 32),
+            ElevatedButton(
+
+              child: const Text('Create'),
+              onPressed: (){
+                Navigator.pop(context);
+              },
+
+
+            ),
+            ],
+          ),
+            
+          );
+            
 
   Future createProfile({required String name}) async {
     final docProfile = FirebaseFirestore.instance.collection('profiles').doc();
