@@ -14,8 +14,7 @@ class HomePage extends StatelessWidget {
       create: (_) {
         final controller = HomeController();
         controller.onMarkerTap.listen((String id) {
-          final route =
-              MaterialPageRoute(builder: (context) => const PerfilPage());
+          final route = MaterialPageRoute(builder: (context) => PerfilPage());
 
           Navigator.push(context, route);
           //generar dialogo o ruta al hacer click en marcador
