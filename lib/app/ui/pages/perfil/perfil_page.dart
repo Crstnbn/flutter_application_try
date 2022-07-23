@@ -2,73 +2,54 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PerfilPage extends StatelessWidget {
-   PerfilPage({Key? key}) : super(key: key);
+  PerfilPage({Key? key}) : super(key: key);
 
   final controllerName = TextEditingController();
   final controllerColor = TextEditingController();
-  final controllerDescription = TextEditingController();
-
-
-
+  // final controllerDescription = TextEditingController();
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Anadir perrito'),
         ),
-          body: ListView(
-            padding: const EdgeInsets.all(16),
-            children: <Widget>[
-              TextField(
-                controller: controllerName,
-                decoration: decoration('name'),
-              ),
-              SizedBox(height: 24),
-              TextField(
-                controller: controllerColor,
-                decoration: decoration('color'),
-              ),
-              
-                SizedBox(height: 24),
-                DateTimeField(
-                controller: controllerDate,
-                decoration: decoration('description'),
-                format: DateFormat('dd-MM-yyy'),
-                onShowPicker: (context, currentValue)=>
-                context: context,
-                firstDate: DateTime(2000),
-                lastDate: Datetime(2100),
-                initialDate: currentValue ?? DateTime
-                ),
-              ),
-
+        body: ListView(
+          padding: const EdgeInsets.all(16),
+          children: <Widget>[
+            TextField(
+              controller: controllerName,
+              decoration: decoration('name'),
+            ),
+            const SizedBox(height: 24),
+            TextField(
+              controller: controllerColor,
+              decoration: decoration('color'),
+            ),
             const SizedBox(height: 32),
             ElevatedButton(
-
               child: const Text('Create'),
-              onPressed: (){
+              onPressed: () {
+                final profile = Profile(
+                    name: controllerName.text, color: controllerColor.text);
+
+                createProfile(profile);
+
                 Navigator.pop(context);
               },
-
-
             ),
-            ],
-          ),
-            
-          );
-            
+          ],
+        ),
+      );
+  InputDecoration decoration(String label) => InputDecoration(
+        labelText: label,
+        border: const OutlineInputBorder(),
+      );
 
-  Future createProfile({required String name}) async {
+  Future createProfile(Profile profile) async {
     final docProfile = FirebaseFirestore.instance.collection('profiles').doc();
+    profile.id = docProfile.id;
 
-    final profile = Profile(
-      id: docProfile.id,
-      name: name,
-      color: 22,
-      description: DateTime(2001, 7, 28),
-    );
     final json = profile.toJson();
-
     await docProfile.set(json);
   }
 }
@@ -76,21 +57,21 @@ class PerfilPage extends StatelessWidget {
 class Profile {
   String id;
   final String name;
-  final int color;
-  final DateTime description;
+  final String color;
+  //final DateTime description;
 
   Profile({
     this.id = '',
     required this.name,
     required this.color,
-    required this.description,
+    //required this.description,
   });
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'color': color,
-        'description': description,
+        //'description': description,
       };
 }
 
