@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Mapas',
       home: const HomePage(),
-      routes: {'perfil': (BuildContext context) => PerfilPage()},
+      routes: {'perfil': (BuildContext context) => ProfilePage()},
       //initialRoute: Routes.SPLASH,
       //routes: appRoutes(),
     );

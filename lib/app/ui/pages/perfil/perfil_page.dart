@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class PerfilPage extends StatelessWidget {
-  PerfilPage({Key? key}) : super(key: key);
+class ProfilePage extends StatelessWidget {
+  ProfilePage({Key? key}) : super(key: key);
 
   final controllerName = TextEditingController();
   final controllerColor = TextEditingController();
