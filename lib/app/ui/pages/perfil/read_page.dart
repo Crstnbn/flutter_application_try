@@ -40,25 +40,27 @@ class ReadPage extends StatelessWidget {
           },
         ),
       );
+}
 
-  Widget buildProfile(Profile profile) => ListTile(
-        leading: CircleAvatar(child: Text('${profile.color}')),
-        title: Text(profile.name),
-      );
+Widget buildProfile(Profile profile) => ListTile(
+      leading: CircleAvatar(child: Text('${profile.color}')),
+      title: Text(profile.name),
+    );
 
-  Stream<List<Profile>> readProfiles() => FirebaseFirestore.instance
-      .collection('profiles')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Profile.fromJson(doc.data())).toList());
+Stream<List<Profile>> readProfiles() => FirebaseFirestore.instance
+    .collection('profiles')
+    .snapshots()
+    .map((snapshot) =>
+        snapshot.docs.map((doc) => Profile.fromJson(doc.data())).toList());
 
-  Future<Profile?> readProfile() async {
-    final docProfile = FirebaseFirestore.instance.collection('profiles').doc();
-    final snapshot = await docProfile.get();
+Future<Profile?> readProfile() async {
+  /// Get single document by ID
+  final docProfile =
+      FirebaseFirestore.instance.collection('profiles').doc('my-id');
+  final snapshot = await docProfile.get();
 
-    if (snapshot.exists) {
-      return Profile.fromJson(snapshot.data()!);
-    }
+  if (snapshot.exists) {
+    return Profile.fromJson(snapshot.data()!);
   }
 }
 

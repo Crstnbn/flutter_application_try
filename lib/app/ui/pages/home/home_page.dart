@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
 
           Navigator.push(context, route);
           //generar dialogo o ruta al hacer click en marcador
-          //print ("got to $id");
+          //print("got to $id");
         });
         return controller;
       },

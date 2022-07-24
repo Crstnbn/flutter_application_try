@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_try/app/ui/pages/perfil/read_page.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -35,6 +36,16 @@ class ProfilePage extends StatelessWidget {
                 createProfile(profile);
 
                 Navigator.pop(context);
+              },
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              child: const Text('Ver todos los perritos'),
+              onPressed: () {
+                final route =
+                    MaterialPageRoute(builder: (context) => ReadPage());
+
+                Navigator.push(context, route);
               },
             ),
           ],

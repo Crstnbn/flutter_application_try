@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_try/app/ui/pages/perfil/perfil_page.dart';
 import 'app/ui/pages/home/home_page.dart';
+import 'app/ui/pages/perfil/read_page.dart';
 //import 'package:flutter_application_try/app/ui/routes/pages.dart';
 //import 'package:flutter_application_try/app/ui/routes/routes.dart';
 
@@ -20,7 +21,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Mapas',
       home: const HomePage(),
-      routes: {'perfil': (BuildContext context) => ProfilePage()},
+
+      routes: {
+        'perfil': (BuildContext context) => ProfilePage(),
+        'read': (BuildContext context) => ReadPage(),
+      },
+
       //initialRoute: Routes.SPLASH,
       //routes: appRoutes(),
     );
