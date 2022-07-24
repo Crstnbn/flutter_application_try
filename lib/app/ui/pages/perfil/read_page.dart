@@ -16,7 +16,7 @@ class ReadPage extends StatelessWidget {
         body: FutureBuilder<Profile?>(
           future: readProfile(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasError) {
               return Text('Algo salio mal! ${snapshot.error}');
             } else if (snapshot.hasData) {
               final profile = snapshot.data;
@@ -54,9 +54,10 @@ Stream<List<Profile>> readProfiles() => FirebaseFirestore.instance
         snapshot.docs.map((doc) => Profile.fromJson(doc.data())).toList());
 
 Future<Profile?> readProfile() async {
-  /// Get single document by ID
-  final docProfile =
-      FirebaseFirestore.instance.collection('profiles').doc('my-id');
+  // Recibe solo un documento
+  final docProfile = FirebaseFirestore.instance
+      .collection('profiles')
+      .doc('tyOUrIhJfrCEmrA1M9my');
   final snapshot = await docProfile.get();
 
   if (snapshot.exists) {
