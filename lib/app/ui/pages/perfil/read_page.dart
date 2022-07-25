@@ -13,17 +13,17 @@ class ReadPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Perritos encontrados'),
         ),
-        body: FutureBuilder<Profile?>(
-          future: readProfile(),
+        body: StreamBuilder<List<Profile>>(
+          stream: readProfiles(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Text('Algo salio mal! ${snapshot.error}');
             } else if (snapshot.hasData) {
-              final profile = snapshot.data;
+              final profiles = snapshot.data!;
 
-              return profile == null
-                  ? const Center(child: Text('No hay perfil'))
-                  : buildProfile(profile);
+              return ListView(
+                children: profiles.map(buildProfile).toList(),
+              );
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
