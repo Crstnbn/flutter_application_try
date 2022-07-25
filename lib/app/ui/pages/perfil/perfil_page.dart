@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_try/app/ui/pages/perfil/photoUpload.dart';
 import 'package:flutter_application_try/app/ui/pages/perfil/read_page.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -46,6 +47,15 @@ class ProfilePage extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => ReadPage());
 
                 Navigator.push(context, route);
+              },
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              child: const Text('Anadir imagen del perrito'),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const PhotoUpload();
+                }));
               },
             ),
           ],
