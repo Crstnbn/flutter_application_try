@@ -54,7 +54,7 @@ class ProfilePage extends StatelessWidget {
               child: const Text('Anadir imagen del perrito'),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const PhotoUpload();
+                  return PhotoUpload();
                 }));
               },
             ),
