@@ -106,6 +106,7 @@ class HomeController extends ChangeNotifier {
       infoWindow: const InfoWindow(title: ('color')),
       onTap: () {
         _markersController.sink.add(id);
+        //length
         print("LATITUD $position.latitude");
         print("LONGITUD $position.longitude");
       },
