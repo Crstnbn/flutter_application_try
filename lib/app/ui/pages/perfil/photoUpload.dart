@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class PhotoUpload extends StatefulWidget {
@@ -10,92 +12,97 @@ class PhotoUpload extends StatefulWidget {
 }
 
 class _PhotoUploadState extends State<PhotoUpload> {
-  File? sampleImage;
-  get picker => null;
-  String? _myValue;
-  final formKey = GlobalKey<FormState>();
+  PlatformFile? pickedFile;
+  UploadTask? uploadTask;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Upload Image"),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: sampleImage == null
-            ? const Text("Select an Image")
-            : enableUpload(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: getImage,
-        tooltip: "Add Image",
-        child: const Icon(Icons.add_a_photo),
-      ),
-    );
-  }
-
-  Future getImage() async {
-    var tempImage = await ImagePicker.platform.getImage(
-        source: ImageSource.gallery,
-        maxWidth: null,
-        maxHeight: null,
-        imageQuality: null,
-        preferredCameraDevice: CameraDevice.rear);
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
 
     setState(() {
-      sampleImage = File(tempImage!.path);
+      pickedFile = result.files.first;
     });
   }
 
-  enableUpload() {
-    return SingleChildScrollView(
-        child: Container(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: formKey,
+  Future uploadFile() async {
+    final path = "files/${pickedFile!.name}";
+    final file = File(pickedFile!.path!);
+
+    final ref = FirebaseStorage.instance.ref().child(path);
+    setState(() {
+      uploadTask = ref.putFile(file);
+    });
+
+    final snapshot = await uploadTask!.whenComplete(() {});
+
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    print('Link descarga: $urlDownload');
+
+    setState(() {
+      uploadTask = null;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: const Text("Upload Image"),
+          centerTitle: true,
+        ),
+        body: Center(
           child: Column(
-            children: <Widget>[
-              Image.file(
-                sampleImage!,
-                height: 300.0,
-                width: 600.0,
-              ),
-              const SizedBox(
-                height: 15.0,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: "Description"),
-                validator: (value) {
-                  return value!.isEmpty ? "Description is Required" : null;
-                },
-                onSaved: (value) => _myValue = value!,
-              ),
-              const SizedBox(
-                height: 15.0,
-              ),
-              RaisedButton(
-                elevation: 10.0,
-                textColor: Colors.white,
-                color: Colors.red,
-                onPressed: validateAndSave,
-                child: const Text("Add a New Post"),
-              )
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (pickedFile != null)
+                Expanded(
+                  child: Container(
+                    color: Colors.blue[100],
+                    child: Center(
+                      child: Text(pickedFile!.name),
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 32),
+              ElevatedButton(
+                  onPressed: selectFile, child: const Text('select file')),
+              const SizedBox(height: 32),
+              ElevatedButton(
+                  onPressed: uploadFile, child: const Text('upload file')),
+              const SizedBox(height: 32),
+              buildProgress(),
             ],
           ),
         ),
-      ),
-    ));
-  }
+      );
 
-  bool validateAndSave() {
-    final Form = formKey.currentState;
-    if (Form!.validate()) {
-      Form.save();
-      return true;
-    } else {
-      return false;
-    }
-  }
+  Widget buildProgress() => StreamBuilder<TaskSnapshot>(
+      stream: uploadTask?.snapshotEvents,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data!;
+          double progress = data.bytesTransferred / data.totalBytes;
+
+          return SizedBox(
+            height: 50,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                LinearProgressIndicator(
+                  value: progress,
+                  backgroundColor: Colors.grey,
+                  color: Colors.green,
+                ),
+                Center(
+                  child: Text(
+                    "${(100 * progress).roundToDouble()}%",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox(height: 50);
+        }
+      });
 }

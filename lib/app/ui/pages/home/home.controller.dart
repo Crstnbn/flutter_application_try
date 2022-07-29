@@ -103,9 +103,11 @@ class HomeController extends ChangeNotifier {
       position: position,
       draggable: true,
       icon: icon,
+      infoWindow: const InfoWindow(title: ('color')),
       onTap: () {
-        // ignore: avoid_print
         _markersController.sink.add(id);
+        print("LATITUD $position.latitude");
+        print("LONGITUD $position.longitude");
       },
     );
     _markers[markerId] = marker;
