@@ -1,16 +1,16 @@
+/*
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_application_try/app/helpers/asset_to_bytes.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/widgets.dart' show ChangeNotifier;
 import '../../utils/map_style.dart';
 
 class HomeController extends ChangeNotifier {
-  final Map<MarkerId, Marker> _markers = {};
+/*  final Map<MarkerId, Marker> _markers = {};
   Set<Marker> get markers => _markers.values.toSet();
-
+*/
   final _markersController = StreamController<String>.broadcast();
   Stream<String> get onMarkerTap => _markersController.stream;
 
@@ -92,6 +92,8 @@ class HomeController extends ChangeNotifier {
 
   Future<void> turnOnGPS() => Geolocator.openLocationSettings();
 
+//home_page
+/*
   void onTap(LatLng position) async {
     final id = _markers.length.toString();
     final markerId = MarkerId(id);
@@ -114,7 +116,7 @@ class HomeController extends ChangeNotifier {
     _markers[markerId] = marker;
     notifyListeners();
   }
-
+*/
   @override
   void dispose() {
     _positionSubscription?.cancel();
@@ -123,3 +125,4 @@ class HomeController extends ChangeNotifier {
     super.dispose();
   }
 }
+*/
