@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geocoder/geocoder.dart' as geoCo;
 
 //import 'package:flutter_application_try/app/ui/routes/pages.dart';
 //import 'package:flutter_application_try/app/ui/routes/routes.dart';
