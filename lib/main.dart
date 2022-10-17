@@ -9,7 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -43,12 +43,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late GoogleMapController googleMapController;
-  late Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   late Position position;
-  late String addressLocation;
-  late String postalCode;
 
-  void getMarkers(double lat, double long) {
+  final List<Marker> _manyMarker = [];
+
+  Marker _marker = const Marker(
+      markerId: MarkerId('m1'),
+      position: LatLng(-33.360458, -70.710031),
+      infoWindow: InfoWindow(title: 'Perrito encontrado', snippet: 'll'),
+      draggable: true);
+
+  //Map<MarkerId,Marker> markers = <MarkerId, Marker>{};
+
+  /* void getMarkers(double lat, double long) {
     MarkerId markerId = MarkerId(lat.toString() + long.toString());
     Marker _marker = Marker(
         markerId: markerId,
@@ -59,7 +66,7 @@ class _HomePageState extends State<HomePage> {
       markers[markerId] = _marker;
     });
   }
-
+*/
   void getCurrentLocation() async {
     Position currentPosition =
         await GeolocatorPlatform.instance.getCurrentPosition();
@@ -77,62 +84,37 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-      ),
-      // ignore: avoid_unnecessary_containers
-      body: Container(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 600.0,
-              child: GoogleMap(
-                  onTap: (tapped) async {
-                    // ignore: unnecessary_new
-                    final coordinated = new geoCo.Coordinates(
-                        tapped.latitude, tapped.longitude);
-                    var address = await geoCo.Geocoder.local
-                        .findAddressesFromCoordinates(coordinated);
-                    var firstAddress = address.first;
-
-                    getMarkers(tapped.latitude, tapped.longitude);
-                    await FirebaseFirestore.instance
-                        .collection('location')
-                        .add({
-                      'latitude': tapped.latitude,
-                      'longitude': tapped.longitude,
-                      'Adress': firstAddress.addressLine,
-                      'PostalCode': firstAddress.postalCode,
-                    });
-                    setState(() {
-                      postalCode = firstAddress.postalCode;
-                      addressLocation = firstAddress.addressLine;
-                    });
-                  },
-                  myLocationButtonEnabled: true,
-                  compassEnabled: true,
-                  myLocationEnabled: true,
-                  onMapCreated: (GoogleMapController controller) {
-                    setState(() {
-                      googleMapController = controller;
-                    });
-                  },
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(position.latitude.toDouble(),
-                          position.longitude.toDouble()),
-                      zoom: 15.0),
-                  markers: Set<Marker>.of(markers.values)),
-            ),
-            Text('Address : $addressLocation'),
-            Text('Postal Code: $postalCode'),
-          ],
+        appBar: AppBar(
+          backgroundColor: Colors.black,
         ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+        body: GoogleMap(
+          onTap: (position) {
+            setState(() {
+              _manyMarker.add(Marker(
+                markerId: MarkerId('Marker ${_manyMarker.length}'),
+                position: LatLng(position.latitude, position.longitude),
+                infoWindow: InfoWindow(
+                    title: 'Perrito encontrado',
+                    snippet:
+                        'Latitud ${position.latitude}, longitud ${position.longitude}'),
+                draggable: true,
+              ));
+            });
+          },
+          mapType: MapType.normal,
+          myLocationButtonEnabled: true,
+          compassEnabled: true,
+          myLocationEnabled: true,
+          onMapCreated: (GoogleMapController controller) {
+            setState(() {
+              googleMapController = controller;
+            });
+          },
+          initialCameraPosition: CameraPosition(
+              target: LatLng(
+                  position.latitude.toDouble(), position.longitude.toDouble()),
+              zoom: 15.0),
+          markers: Set<Marker>.from(_manyMarker),
+        ));
   }
 }
