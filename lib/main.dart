@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -46,12 +44,6 @@ class _HomePageState extends State<HomePage> {
   late Position position;
 
   final List<Marker> _manyMarker = [];
-
-  Marker _marker = const Marker(
-      markerId: MarkerId('m1'),
-      position: LatLng(-33.360458, -70.710031),
-      infoWindow: InfoWindow(title: 'Perrito encontrado', snippet: 'll'),
-      draggable: true);
 
   //Map<MarkerId,Marker> markers = <MarkerId, Marker>{};
 
@@ -111,8 +103,8 @@ class _HomePageState extends State<HomePage> {
             });
           },
           initialCameraPosition: CameraPosition(
-              target: LatLng(
-                  position.latitude.toDouble(), position.longitude.toDouble()),
+              target: LatLng(position!.latitude.toDouble(),
+                  position!.longitude.toDouble()),
               zoom: 15.0),
           markers: Set<Marker>.from(_manyMarker),
         ));
