@@ -1,16 +1,13 @@
-# flutter_application_try
+# CittyDoggy!
 
-A new Flutter project.
+Se propone una herramienta la cual nos va a permitir visibilizar más a los perros en situación de calle, localizándolos para tener un registro de cuáles son las zonas con presencia de estos perros posiblemente abandonados. Una aplicación la cual necesita de los mismos usuarios que buscan el mismo fin de ayudar a estos seres. Siendo los encargados de localizarlos y registrando sus ayudas a estos.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Tecnologías
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Una lista de tecnologías utilizadas en el proyecto:
+* [Flutter](https://flutter.dev/): Version 3.3
+* [Dark](https://esflutter.dev/docs/resources/bootstrap-into-dart): Version 2.12
+* [Android Studio](https://developer.android.com/): Android Studio Dolphin | 2021.3.1
+* [Firebase](https://firebase.google.com/)
