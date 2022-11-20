@@ -1,21 +1,23 @@
-/*
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_try/app/helpers/asset_to_bytes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/widgets.dart' show ChangeNotifier;
-import '../../utils/map_style.dart';
 
 class HomeController extends ChangeNotifier {
-/*  final Map<MarkerId, Marker> _markers = {};
+  final Map<MarkerId, Marker> _markers = {};
   Set<Marker> get markers => _markers.values.toSet();
-*/
+
   final _markersController = StreamController<String>.broadcast();
   Stream<String> get onMarkerTap => _markersController.stream;
 
   Position? _initialPosition;
-  Position? get initialPosition => _initialPosition;
+  CameraPosition get initialCameraPosition => CameraPosition(
+        target: LatLng(_initialPosition!.latitude, _initialPosition!.longitude),
+        zoom: 15.0,
+      );
 
   final _huellaIcon = Completer<BitmapDescriptor>();
 
@@ -26,51 +28,46 @@ class HomeController extends ChangeNotifier {
   bool get gpsEnabled => _gpsEnabled;
 
   StreamSubscription? _gpsSubscription, _positionSubscription;
-  GoogleMapController? _mapController;
 
   HomeController() {
     _init();
   }
-
+  //duda error async await en vez de 'then'
   Future<void> _init() async {
-    final value = await assetToBytes('assets/huella.png', width: 130);
+    //optimizar rendimiento de aplicacion cargando la imagen en bytes//
+    final value = await assetToBytes('assets/huella.png');
     final bitmap = BitmapDescriptor.fromBytes(value);
     _huellaIcon.complete(bitmap);
 
     _gpsEnabled = await Geolocator.isLocationServiceEnabled();
+
     _loading = false;
     _gpsSubscription = Geolocator.getServiceStatusStream().listen(
       (status) async {
         _gpsEnabled = status == ServiceStatus.enabled;
+        //comprueba que se desactiva la localizacion
+        //await _getInitialPosition();
         if (_gpsEnabled) {
           _initLocationUpdates();
         }
       },
     );
-
     _initLocationUpdates();
   }
 
-  void _initLocationUpdates() async {
+  Future<void> _initLocationUpdates() async {
     bool initialized = false;
     await _positionSubscription?.cancel();
     _positionSubscription = Geolocator.getPositionStream().listen(
-      (position) async {
+      (position) {
         if (!initialized) {
           _setInitialPosition(position);
           initialized = true;
           notifyListeners();
         }
-        if (_mapController != null) {
-          final zoom = await _mapController!.getZoomLevel();
-          final cameraUpdate = CameraUpdate.newLatLngZoom(
-            LatLng(position.latitude, position.longitude),
-            zoom,
-          );
-          _mapController!.animateCamera(cameraUpdate);
-        }
       },
       onError: (e) {
+        print('onError ${e.runtimeType}');
         if (e is LocationServiceDisabledException) {
           _gpsEnabled = false;
           notifyListeners();
@@ -81,42 +78,31 @@ class HomeController extends ChangeNotifier {
 
   void _setInitialPosition(Position position) {
     if (_gpsEnabled && _initialPosition == null) {
+      //_initialPosition = await Geolocator.getLastKnownPosition();
       _initialPosition = position;
     }
   }
 
-  void onMapCreated(GoogleMapController controller) {
-    controller.setMapStyle(mapStyle);
-    _mapController = controller;
-  }
-
   Future<void> turnOnGPS() => Geolocator.openLocationSettings();
 
-//home_page
-/*
   void onTap(LatLng position) async {
     final id = _markers.length.toString();
     final markerId = MarkerId(id);
 
     final icon = await _huellaIcon.future;
+    //recupera imagen//
 
     final marker = Marker(
-      markerId: markerId,
-      position: position,
-      draggable: true,
-      icon: icon,
-      infoWindow: const InfoWindow(title: ('color')),
-      onTap: () {
-        _markersController.sink.add(id);
-        //length
-        print("LATITUD $position.latitude");
-        print("LONGITUD $position.longitude");
-      },
-    );
+        markerId: markerId,
+        position: position,
+        icon: icon,
+        onTap: (() {
+          _markersController.sink.add(id);
+        }));
     _markers[markerId] = marker;
     notifyListeners();
   }
-*/
+
   @override
   void dispose() {
     _positionSubscription?.cancel();
@@ -125,4 +111,4 @@ class HomeController extends ChangeNotifier {
     super.dispose();
   }
 }
-*/
+//deja de escuchar los cambios en el gps

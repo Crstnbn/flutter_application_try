@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_try/app/ui/pages/request_permission/request_permission_controller.dart';
-import 'package:flutter_application_try/app/ui/routes/routes.dart';
+import 'package:flutter_application_try/app/ui/pages/routes/routes.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class RequestPermissionPage extends StatefulWidget {
@@ -28,7 +28,7 @@ class _RequestPermissionPageState extends State<RequestPermissionPage>
       (status) {
         switch (status) {
           case PermissionStatus.granted:
-            _goThoHome();
+            _goToHome();
             break;
           case PermissionStatus.permanentlyDenied:
             showDialog(
@@ -66,7 +66,7 @@ class _RequestPermissionPageState extends State<RequestPermissionPage>
     if (state == AppLifecycleState.resumed && _fromSettings) {
       final status = await _controller.check();
       if (status == PermissionStatus.granted) {
-        _goThoHome();
+        _goToHome();
       }
     }
     _fromSettings = false;
@@ -80,7 +80,7 @@ class _RequestPermissionPageState extends State<RequestPermissionPage>
     super.dispose();
   }
 
-  void _goThoHome() {
+  void _goToHome() {
     Navigator.pushReplacementNamed(context, Routes.HOME);
   }
 
@@ -88,17 +88,18 @@ class _RequestPermissionPageState extends State<RequestPermissionPage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        alignment: Alignment.center,
-        child: ElevatedButton(
-          child: const Text("Permisos de ubicacion"),
-          onPressed: () {
-            _controller.request();
-          },
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          alignment: Alignment.center,
+          child: ElevatedButton(
+            child: const Text("Permisos de ubicacion"),
+            onPressed: () {
+              _controller.request();
+            },
+          ),
         ),
-      )),
+      ),
     );
   }
 }
