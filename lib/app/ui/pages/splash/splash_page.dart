@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter_application_try/app/ui/pages/splash/splash_controller.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -6,7 +7,7 @@ class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  _SplashPageState createState() => _SplashPageState();
 }
 
 class _SplashPageState extends State<SplashPage> {
@@ -15,9 +16,11 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _controller.checkPermission();
-    });
+    WidgetsBinding.instance!.addPostFrameCallback(
+      (_) {
+        _controller.checkPermission();
+      },
+    );
     _controller.addListener(() {
       if (_controller.routeName == null) {
         Navigator.pushReplacementNamed(context, _controller.routeName!);
@@ -28,7 +31,10 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }
+*/

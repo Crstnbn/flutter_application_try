@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -62,7 +63,6 @@ class _RequestPermissionPageState extends State<RequestPermissionPage>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print("state $state");
     if (state == AppLifecycleState.resumed && _fromSettings) {
       final status = await _controller.check();
       if (status == PermissionStatus.granted) {
@@ -103,3 +103,4 @@ class _RequestPermissionPageState extends State<RequestPermissionPage>
     );
   }
 }
+*/

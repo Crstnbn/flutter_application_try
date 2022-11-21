@@ -12,59 +12,21 @@ class HomePage extends StatelessWidget {
       create: (_) {
         final controller = HomeController();
         controller.onMarkerTap.listen((String id) {
-          print('got to $id');
-          //navegar perfil
+          print("got to $id");
+          //dialogo o pantalla
         });
 
         return controller;
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Citty Doggy')),
-        body: Selector<HomeController, bool>(
-          selector: (_, controller) => controller.loading,
-          builder: (context, loading, loadingWidget) {
-            if (loading) {
-              return loadingWidget!;
-            }
-            return Consumer<HomeController>(
-              builder: (_, controller, gpsMessageWidget) {
-                if (controller.gpsEnabled) {
-                  return gpsMessageWidget!;
-                }
-
-                return GoogleMap(
-                  markers: controller.markers,
-                  onMapCreated: (controller) {},
-                  initialCameraPosition: controller.initialCameraPosition,
-                  myLocationButtonEnabled: true,
-                  myLocationEnabled: true,
-                  onTap: controller.onTap,
-
-                  /*onLongPress: (Position) {
-                    print(Position);
-          
-          },*/
-                );
-              },
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('Para usar la aplicacio, debe hablitar el gps'),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        final controller = context.read<HomeController>();
-                        controller.turnOnGPS();
-                      },
-                      child: const Text('Encender gps'),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-          child: const Center(child: CircularProgressIndicator()),
+        appBar: AppBar(),
+        body: Consumer<HomeController>(
+          builder: (_, controller, __) => GoogleMap(
+            markers: controller.markers,
+            initialCameraPosition: controller.initialCameraPosition,
+            myLocationButtonEnabled: false,
+            onTap: controller.onTap,
+          ),
         ),
       ),
     );
