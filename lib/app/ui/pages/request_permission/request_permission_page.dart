@@ -1,4 +1,3 @@
-/*
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -15,16 +14,14 @@ class RequestPermissionPage extends StatefulWidget {
 
 class _RequestPermissionPageState extends State<RequestPermissionPage>
     with WidgetsBindingObserver {
-  final _controller =
-      RequestPermissionsController(Permission.locationWhenInUse);
+  final _controller = RequestPermissionController(Permission.locationWhenInUse);
   late StreamSubscription _subscription;
-
   bool _fromSettings = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     _subscription = _controller.onStatusChanged.listen(
       (status) {
         switch (status) {
@@ -74,7 +71,7 @@ class _RequestPermissionPageState extends State<RequestPermissionPage>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     _subscription.cancel();
     _controller.dispose();
     super.dispose();
@@ -93,7 +90,7 @@ class _RequestPermissionPageState extends State<RequestPermissionPage>
           height: double.infinity,
           alignment: Alignment.center,
           child: ElevatedButton(
-            child: const Text("Permisos de ubicacion"),
+            child: const Text('Entrar / Dar permisos'),
             onPressed: () {
               _controller.request();
             },
@@ -103,4 +100,3 @@ class _RequestPermissionPageState extends State<RequestPermissionPage>
     );
   }
 }
-*/

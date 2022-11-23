@@ -1,11 +1,10 @@
-/*
 import 'dart:async';
 
 import 'package:permission_handler/permission_handler.dart';
 
-class RequestPermissionsController {
+class RequestPermissionController {
   final Permission _locationPermission;
-  RequestPermissionsController(this._locationPermission);
+  RequestPermissionController(this._locationPermission);
 
   final _streamController = StreamController<PermissionStatus>.broadcast();
 
@@ -31,4 +30,3 @@ class RequestPermissionsController {
     _streamController.close();
   }
 }
-*/

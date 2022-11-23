@@ -1,5 +1,4 @@
-/*
-import 'package:flutter/widgets.dart' show ChangeNotifier;
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_try/app/ui/pages/routes/routes.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -16,4 +15,3 @@ class SplashController extends ChangeNotifier {
     notifyListeners();
   }
 }
-*/

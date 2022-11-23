@@ -20,12 +20,50 @@ class HomePage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(),
-        body: Consumer<HomeController>(
-          builder: (_, controller, __) => GoogleMap(
-            markers: controller.markers,
-            initialCameraPosition: controller.initialCameraPosition,
-            myLocationButtonEnabled: false,
-            onTap: controller.onTap,
+        body: Selector<HomeController, bool>(
+          selector: (_, controller) => controller.loading,
+          builder: (context, loading, loadingWidget) {
+            if (loading) {
+              return loadingWidget!;
+            }
+            return Consumer<HomeController>(
+              builder: (_, controller, gpsMessageWidget) {
+                if (!controller.gpsEnable) {
+                  return gpsMessageWidget!;
+                }
+
+                return GoogleMap(
+                  markers: controller.markers,
+                  initialCameraPosition: controller.initialCameraPosition,
+                  myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  onTap: controller.onTap,
+                );
+              },
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      "Para utilizar la aplicacion \n debe tener activo el gps",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          final controller = context.read<HomeController>();
+                          controller.turnOnGPS();
+                        },
+                        child: const Text('Activar el gps'))
+                  ],
+                ),
+              ),
+            );
+          },
+          child: const Center(
+            child: CircularProgressIndicator(),
           ),
         ),
       ),
