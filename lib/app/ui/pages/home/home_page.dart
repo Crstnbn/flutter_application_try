@@ -31,10 +31,9 @@ class HomePage extends StatelessWidget {
                 if (!controller.gpsEnable) {
                   return gpsMessageWidget!;
                 }
-
                 return GoogleMap(
                   markers: controller.markers,
-                  initialCameraPosition: controller.initialCameraPosition,
+                  initialCameraPosition: controller.initalCameraPosition,
                   myLocationButtonEnabled: true,
                   myLocationEnabled: true,
                   onTap: controller.onTap,
