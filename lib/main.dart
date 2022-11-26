@@ -1,11 +1,12 @@
-//import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_try/app/ui/pages/perfil/profile_dog_page.dart';
 import 'package:flutter_application_try/app/ui/pages/routes/pages.dart';
 import 'package:flutter_application_try/app/ui/pages/routes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -17,11 +18,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Geocoding',
+
       theme: ThemeData(
         primaryColor: Colors.blue,
       ),
+
+      //home: ProfileDogPage(),
       initialRoute: Routes.PERMISSIONS,
-      //.SPASH, pero da error circular progress indicator infinito
       routes: appRoutes(),
     );
   }

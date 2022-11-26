@@ -28,10 +28,12 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
-    sdk: flutter
-  flutter_lints: ^2.0.1  
+    sdk: flutter  
   provider: ^6.0.4
   permission_handler: ^10.2.0
+  geoflutterfire: ^3.0.3
+  location: ^4.4.0
+  rxdart: ^0.27.7
 
 
   # The following adds the Cupertino Icons font to your application.

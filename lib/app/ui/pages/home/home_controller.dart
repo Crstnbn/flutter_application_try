@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart' show ChangeNotifier;
 import 'package:flutter_application_try/app/helpers/asset_to_bytes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -90,15 +89,18 @@ class HomeController extends ChangeNotifier {
   void onTap(LatLng position) async {
     final id = _markers.length.toString();
     final markerId = MarkerId(id);
-
     final icon = await _huellaIcon.future;
 
     final marker = Marker(
         markerId: markerId,
         position: position,
         icon: icon,
-        onTap: () {
+        onTap: () async {
           _markersController.sink.add(id);
+          await FirebaseFirestore.instance.collection('location').add({
+            'latitude': position.latitude,
+            'longitude': position.longitude,
+          });
         });
     _markers[markerId] = marker;
     notifyListeners();

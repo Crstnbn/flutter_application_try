@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_try/app/ui/pages/perfil/photoUpload.dart';
+import 'package:flutter_application_try/app/ui/pages/perfil/profile_dog_page.dart';
 import 'package:flutter_application_try/app/ui/pages/perfil/read_page.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
 
   final controllerName = TextEditingController();
-  final controllerColor = TextEditingController();
-  // final controllerDescription = TextEditingController();
+  final controllerDescription = TextEditingController();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -24,15 +23,16 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             TextField(
-              controller: controllerColor,
-              decoration: decoration('color'),
+              controller: controllerDescription,
+              decoration: decoration('description'),
             ),
             const SizedBox(height: 32),
             ElevatedButton(
               child: const Text('Create'),
               onPressed: () {
                 final profile = Profile(
-                    name: controllerName.text, color: controllerColor.text);
+                    name: controllerName.text,
+                    description: controllerDescription.text);
 
                 createProfile(profile);
 
@@ -49,15 +49,15 @@ class ProfilePage extends StatelessWidget {
                 Navigator.push(context, route);
               },
             ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              child: const Text('Anadir imagen del perrito'),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const PhotoUpload();
-                }));
-              },
-            ),
+            //const SizedBox(height: 32),
+            //ElevatedButton(
+            //child: const Text('Anadir imagen del perrito'),
+            //onPressed: () {
+            //Navigator.push(context, MaterialPageRoute(builder: (context) {
+            //return const PhotoUpload();
+            // }));
+            //},
+            //),
           ],
         ),
       );
@@ -78,40 +78,17 @@ class ProfilePage extends StatelessWidget {
 class Profile {
   String id;
   final String name;
-  final String color;
-  //final DateTime description;
+  final String description;
 
   Profile({
     this.id = '',
     required this.name,
-    required this.color,
-    //required this.description,
+    required this.description,
   });
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'color': color,
-        //'description': description,
+        'description': description,
       };
 }
-
-
-//body: ListView(
-  //      children: [
-    //      Card(
-      //      child: Column(
-        //      children: const [
-          //      ListTile(
-            //      leading: Icon(Icons.photo_album_outlined),
-              //    title: Text('nombreperrito'),
-                //  subtitle: Text(
-                  //    'informacion sobre el perrito, tipo bitacora con toda la informacion del dia a dia del perrito, con la idea de que se pueda modificar siempre sin borrar las otras ediciones'),
-                //)
-                //Image(image: NetworkImage('http://photos.demandstudios.com/getty/article/18/20/89676742.jpg')
-              //],
-            //),
-          //),
-        //],
-      //),
-    

@@ -8,10 +8,12 @@ class TextPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text(
-        'Informacion sobre tenencia responsable de mascotas',
-        style: TextStyle(color: Colors.white),
-      )),
+        title: const Text(
+          "Informacion sobre tenencia responsable\n de mascotas",
+          textAlign: TextAlign.start,
+          style: TextStyle(fontSize: 25),
+        ),
+      ),
       body: DefaultTextStyle.merge(
         style: const TextStyle(
           fontSize: 20.0,

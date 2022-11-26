@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_try/app/ui/pages/perfil/perfil_page.dart';
+import 'package:flutter_application_try/app/ui/pages/perfil/profile_dog_page.dart';
 
 class ReadPage extends StatelessWidget {
   ReadPage({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class ReadPage extends StatelessWidget {
           child: const Icon(Icons.add),
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => ProfilePage()),
+              MaterialPageRoute(builder: (context) => ProfileDogPage()),
             );
           },
         ),
@@ -52,18 +52,6 @@ Stream<List<Profile>> readProfiles() => FirebaseFirestore.instance
     .snapshots()
     .map((snapshot) =>
         snapshot.docs.map((doc) => Profile.fromJson(doc.data())).toList());
-
-Future<Profile?> readProfile() async {
-  // Recibe solo un documento
-  final docProfile = FirebaseFirestore.instance
-      .collection('profiles')
-      .doc('tyOUrIhJfrCEmrA1M9my');
-  final snapshot = await docProfile.get();
-
-  if (snapshot.exists) {
-    return Profile.fromJson(snapshot.data()!);
-  }
-}
 
 class Profile {
   String id;
@@ -88,22 +76,3 @@ class Profile {
   static Profile fromJson(Map<String, dynamic> json) =>
       Profile(id: json['id'], name: json['name'], color: json['color']);
 }
-
-
-//body: ListView(
-  //      children: [
-    //      Card(
-      //      child: Column(
-        //      children: const [
-          //      ListTile(
-            //      leading: Icon(Icons.photo_album_outlined),
-              //    title: Text('nombreperrito'),
-                //  subtitle: Text(
-                  //    'informacion sobre el perrito, tipo bitacora con toda la informacion del dia a dia del perrito, con la idea de que se pueda modificar siempre sin borrar las otras ediciones'),
-                //)
-                //Image(image: NetworkImage('http://photos.demandstudios.com/getty/article/18/20/89676742.jpg')
-              //],
-            //),
-          //),
-        //],
-      //),

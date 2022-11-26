@@ -33,7 +33,11 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Text(
+          "Error! reincie la aplicación con el GPS activado \n / Boton sin funcionalidad",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 22),
+        ),
       ),
     );
   }

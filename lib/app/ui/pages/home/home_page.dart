@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_try/app/ui/pages/home/home_controller.dart';
+import 'package:flutter_application_try/app/ui/pages/perfil/profile_page.dart';
+import 'package:flutter_application_try/app/ui/pages/widget/navigation_drawer_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -11,15 +13,21 @@ class HomePage extends StatelessWidget {
     return ChangeNotifierProvider<HomeController>(
       create: (_) {
         final controller = HomeController();
-        controller.onMarkerTap.listen((String id) {
-          print("got to $id");
-          //dialogo o pantalla
-        });
+        controller.onMarkerTap.listen(
+          (String id) {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );
+          },
+        );
 
         return controller;
       },
       child: Scaffold(
+        //lineas del navigator esquina
+        drawer: const NatigationDrawerWidget(),
         appBar: AppBar(),
+
         body: Selector<HomeController, bool>(
           selector: (_, controller) => controller.loading,
           builder: (context, loading, loadingWidget) {
@@ -31,6 +39,12 @@ class HomePage extends StatelessWidget {
                 if (!controller.gpsEnable) {
                   return gpsMessageWidget!;
                 }
+
+                FloatingActionButton(
+                  child: const Icon(Icons.pets),
+                  onPressed: () {},
+                );
+
                 return GoogleMap(
                   markers: controller.markers,
                   initialCameraPosition: controller.initalCameraPosition,
