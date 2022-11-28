@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_try/app/ui/pages/adoption/adoption_page.dart';
 import 'package:flutter_application_try/app/ui/pages/request_permission/request_permission_page.dart';
 import 'package:flutter_application_try/app/ui/pages/text/text_page.dart';
 
@@ -89,7 +90,11 @@ class NatigationDrawerWidget extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.pets),
               title: const Text('Registrar adopcion'),
-              onTap: () {},
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AdoptionPage(),
+                ),
+              ),
             ),
             const Divider(
               color: Colors.black54,

@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_try/app/ui/pages/perfil/profile_page.dart';
+import 'package:flutter_application_try/app/ui/pages/adoption/adoption_page.dart';
 
-class ReadPage extends StatelessWidget {
-  ReadPage({Key? key}) : super(key: key);
-
-  final controller = TextEditingController();
+class AdoptionList extends StatelessWidget {
+  const AdoptionList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -13,10 +11,10 @@ class ReadPage extends StatelessWidget {
           title: const Text('Perritos encontrados'),
         ),
         body: StreamBuilder<List<Profile>>(
-          stream: readProfiles(),
+          stream: readAdoption(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text('Algo salio mal! ${snapshot.error}');
+              return Text('Algo salio mal! o no hay datos ${snapshot.error}');
             } else if (snapshot.hasData) {
               final profiles = snapshot.data!;
 
@@ -34,7 +32,7 @@ class ReadPage extends StatelessWidget {
           child: const Icon(Icons.add),
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => ProfilePage()),
+              MaterialPageRoute(builder: (context) => AdoptionPage()),
             );
           },
         ),
@@ -46,8 +44,8 @@ Widget buildProfile(Profile profile) => ListTile(
       title: Text(profile.name),
     );
 
-Stream<List<Profile>> readProfiles() => FirebaseFirestore.instance
-    .collection('profiles')
+Stream<List<Profile>> readAdoption() => FirebaseFirestore.instance
+    .collection('adoptions')
     .snapshots()
     .map((snapshot) =>
         snapshot.docs.map((doc) => Profile.fromJson(doc.data())).toList());

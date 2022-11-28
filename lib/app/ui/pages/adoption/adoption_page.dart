@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_try/app/ui/pages/perfil/photoUpload.dart';
-import 'package:flutter_application_try/app/ui/pages/perfil/read_page.dart';
+import 'package:flutter_application_try/app/ui/pages/adoption/adoption_list_.dart';
+import 'package:flutter_application_try/app/ui/pages/adoption/adoption_photo.dart';
 
-class ProfilePage extends StatelessWidget {
-  ProfilePage({Key? key}) : super(key: key);
+class AdoptionPage extends StatelessWidget {
+  AdoptionPage({Key? key}) : super(key: key);
 
   final controllerName = TextEditingController();
   final controllerDescription = TextEditingController();
@@ -12,19 +12,19 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Anadir perrito'),
+          title: const Text('Anadir adopción'),
         ),
         body: ListView(
           padding: const EdgeInsets.all(16),
           children: <Widget>[
             TextField(
               controller: controllerName,
-              decoration: decoration('name'),
+              decoration: decoration('Nombre de nuevo dueñ@'),
             ),
             const SizedBox(height: 24),
             TextField(
               controller: controllerDescription,
-              decoration: decoration('description'),
+              decoration: decoration('Número de contacto'),
             ),
             const SizedBox(height: 32),
             ElevatedButton(
@@ -41,10 +41,10 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
-              child: const Text('Ver todos los perritos'),
+              child: const Text('Ver todos las adopciones'),
               onPressed: () {
-                final route =
-                    MaterialPageRoute(builder: (context) => ReadPage());
+                final route = MaterialPageRoute(
+                    builder: (context) => const AdoptionList());
 
                 Navigator.push(context, route);
               },
@@ -54,7 +54,7 @@ class ProfilePage extends StatelessWidget {
               child: const Text('Anadir imagen del perrito'),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const PhotoUpload();
+                  return const AdoptionPhotoUpload();
                 }));
               },
             ),
@@ -67,7 +67,7 @@ class ProfilePage extends StatelessWidget {
       );
 
   Future createProfile(Profile profile) async {
-    final docProfile = FirebaseFirestore.instance.collection('profiles').doc();
+    final docProfile = FirebaseFirestore.instance.collection('adoptions').doc();
     profile.id = docProfile.id;
 
     final json = profile.toJson();
