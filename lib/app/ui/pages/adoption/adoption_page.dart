@@ -43,8 +43,8 @@ class AdoptionPage extends StatelessWidget {
             ElevatedButton(
               child: const Text('Ver todos las adopciones'),
               onPressed: () {
-                final route = MaterialPageRoute(
-                    builder: (context) => const AdoptionList());
+                final route =
+                    MaterialPageRoute(builder: (context) => AdoptionList());
 
                 Navigator.push(context, route);
               },
